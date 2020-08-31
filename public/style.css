@@ -1,0 +1,36 @@
+:root {
+  text-align: center;
+  margin: auto;
+  background-color: black;
+  color: lightgrey;
+}
+
+body {
+  text-align: center;
+}
+.textinput {
+  height: 50px;
+  width: 75%;
+  background-color: grey;
+}
+.meme {
+  height: 315px;
+}
+.creator-link {
+  text-decoration: none;
+  color: lightgrey;
+}
+.creator-link:hover {
+  text-decoration: underline;
+  color: white;
+}
+.infomation-container {
+  width: 800px;
+  margin: auto;
+}
+.title-img {
+  margin: 0 auto 30px auto;
+}
+.target-container {
+  width: 800px;
+}
