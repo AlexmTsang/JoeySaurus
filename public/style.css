@@ -12,6 +12,9 @@ body {
   height: 50px;
   width: 75%;
   background-color: grey;
+  font-family: "Times New Roman", Times, serif;
+  resize: none;
+  border-radius: 10px;
 }
 .meme {
   height: 315px;
@@ -25,12 +28,14 @@ body {
   color: white;
 }
 .infomation-container {
-  width: 800px;
+  width: 75%;
   margin: auto;
 }
 .title-img {
   margin: 0 auto 30px auto;
 }
 .target-container {
-  width: 800px;
+  width: 75%;
+  margin: auto;
+  text-align: center;
 }

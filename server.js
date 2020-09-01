@@ -1,11 +1,12 @@
+require("dotenv").config();
 const express = require("express");
-
 const app = express();
 const path = require("path");
 const bodyParser = require("body-parser");
 const fetch = require("node-fetch");
-require('dotenv').config()
-const apiKey = process.env.API_KEY;
+const cors = require("cors");
+
+const apiKey = process.env.API_KEY2;
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -21,6 +22,9 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+app.use(cors({
+  origin: true
+}));
 app.use(express.static(__dirname + "/public"));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "./public/index.html"));
@@ -28,28 +32,30 @@ app.get("/", (req, res) => {
 
 app.get("/api", async (req, res) => {
   let last = 0;
-  let arr = []
-  const inputSentance = req.query.sentance.toLowerCase()
+  let arr = [];
+  const inputSentance = req.query.sentance.toLowerCase();
   for (let i = 0; i < inputSentance.length; i++) {
-    if (inputSentance.charCodeAt(i) <= 64 || inputSentance.charCodeAt(i) >= 123) {
+    if (
+      inputSentance.charCodeAt(i) <= 64 ||
+      inputSentance.charCodeAt(i) >= 123
+    ) {
       if (i == last) {
-        arr.push(inputSentance.charAt(i))
-        last = i + 1
-        continue
+        arr.push(inputSentance.charAt(i));
+        last = i + 1;
+        continue;
       }
-      arr.push(inputSentance.substring(last, i))
-      arr.push(inputSentance.charAt(i))
+      arr.push(inputSentance.substring(last, i));
+      arr.push(inputSentance.charAt(i));
       if (i != inputSentance.length) {
         last = i + 1;
       }
     }
   }
   if (last != inputSentance.length) {
-    arr.push(inputSentance.substring(last, inputSentance.length))
+    arr.push(inputSentance.substring(last, inputSentance.length));
   }
 
-  console.log(arr)
-
+  // console.log(arr)
 
   // const arr = req.query.sentance.toLowerCase().split(" ");
   let finalSentance = "";
@@ -59,7 +65,7 @@ app.get("/api", async (req, res) => {
     let data;
     if (arr[i].charCodeAt(0) <= 64 || inputSentance.charCodeAt(0) >= 123) {
       finalSentance = finalSentance.concat(arr[i]);
-      continue
+      continue;
     }
     try {
       const response = await fetch(
@@ -85,7 +91,7 @@ app.get("/api", async (req, res) => {
       possibleWords[getRandomInt(possibleWords.length)]
     );
   }
-  console.log(finalSentance)
+  // console.log(finalSentance)
   res.json(capitalizeFirstLetter(finalSentance));
 });
 
