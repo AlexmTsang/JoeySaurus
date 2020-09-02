@@ -5,7 +5,8 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const fetch = require("node-fetch");
-const synonyms = require('./SYNONYMS.json')
+const synonyms = require("./public/SYNONYMS.json");
+app.use(express.static(__dirname + "/public"));
 
 const apiKey = process.env.API_KEY2;
 
@@ -19,7 +20,7 @@ function capitalizeFirstLetter(string) {
 
 app.use(express.static(__dirname));
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "./index.html"));
+  res.sendFile(path.join(__dirname + "/public/index.html"));
 });
 
 // app.get("/api", async (req, res) => {
@@ -109,7 +110,9 @@ app.get("/api", async (req, res) => {
     }
   }
   if (last != inputSentance.length) {
-    arr.push(capitalizeFirstLetter(inputSentance.substring(last, inputSentance.length)));
+    arr.push(
+      capitalizeFirstLetter(inputSentance.substring(last, inputSentance.length))
+    );
   }
 
   let finalSentance = "";
@@ -121,7 +124,7 @@ app.get("/api", async (req, res) => {
       continue;
     }
     if (synonyms[arr[i]]) {
-      possibleWords = possibleWords.concat(synonyms[arr[i]])
+      possibleWords = possibleWords.concat(synonyms[arr[i]]);
     }
     finalSentance = finalSentance.concat(
       possibleWords[getRandomInt(possibleWords.length)]
@@ -129,6 +132,5 @@ app.get("/api", async (req, res) => {
   }
   res.json(capitalizeFirstLetter(finalSentance));
 });
-
 
 app.listen(process.env.PORT || 4000);
